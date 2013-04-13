@@ -5,6 +5,7 @@ var async = require("async");
 var redis = require("redis");
 var http = require('http');
 var engine = require('ejs-locals');
+var mongoose = require('mongoose');
 var _ = require('underscore');
 
 var data = {
