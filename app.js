@@ -15,7 +15,6 @@ var data = {
   twitter_lookup: require('./json/twitter_lookup')
 };
 
-
 var app = module.exports = express();
 
 app.locals({_layoutFile: true});
@@ -59,6 +58,8 @@ app.get('/api/topics', function(req, res) {
 });
 
 app.get('/api/twitter_lookup', function(req, res) {
+  var params = _.keys(req.query);
+  data.twitter_lookup = _.map(data.twitter_lookup, pick(params, params.length > 0));
   res.json(data.twitter_lookup);
 });
 
