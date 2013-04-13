@@ -2,10 +2,16 @@
 
 body {
   color: #0b97c4;
+  font-family: "helvetica neue", Helvetica, "Open Sans", sans-serif;
+}
+h1 {
+  color: #333;
+  font-size: 2em;
 }
 
 #time {
-  text-align: center; font: 1em "Helvetica Neue";
+  text-align: center; font: 2em "Helvetica Neue";
+  margin: 40px 0 ;
 
   .number, .num, .desc {
     display: inline; padding-right:10px; font-size: 1.1em;
@@ -37,13 +43,22 @@ body {
   width: 480px;
   background: #fff;
   overflow: hidden;
-  opacity: 0.8;
+  opacity: 0.9;
   height: 720px;
   position: absolute;
-  .left {
-    margin-left: 0;
+  display: none;
+  & > * {
+    padding: 10px 20px;
   }
-  .right {
+  &.left {
+    margin-left: 0;
+    display: block;
+  }
+  &.right {
     margin-left: 480px;
+    display: block;
+  }
+  &.hidden {
+    display: none;
   }
 }

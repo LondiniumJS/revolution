@@ -8,6 +8,7 @@ var engine = require('ejs-locals');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Extend = require('./model').Extend();
+var TwitterLookup = require('./model').TwitterLookup();
 
 var data = {
   extended: require('./json/extended'),
@@ -34,11 +35,26 @@ app.configure(function () {
 });
 
 app.get('/', function(req, res) {
-  Extend.find({}).select('twitter peerindex authority audience activity').sort('peerindex').exec(function(err, docs){
-    console.log(typeof docs);
-    res.locals.users = JSON.stringify(docs);
-    res.render('index');
-  });
+//  Extend.find({}).select('twitter peerindex authority audience activity').sort('peerindex').exec(function(err, docs){
+//    var new_docs = [];
+//    var i = 0;
+//    async.eachSeries(
+//      docs,
+//      function (doc, callback) {
+//        TwitterLookup.findOne({id: doc.twitter.id}).select("description followers_count statuses_count name screen_name url").exec( function(err, obj) {
+//          var new_doc = _.extend(doc.toObject(), obj.toObject());
+//          new_docs.push(new_doc);
+//          callback(err, obj);
+//          console.log(++i);
+//        });
+//      },
+//      function (err, result) {
+//        console.log(new_docs);
+//        res.locals.users = JSON.stringify(new_docs);
+        res.render('index');
+//      }
+//    );
+//  });
 });
 
 function pick (params, condition) {
