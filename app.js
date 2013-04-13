@@ -5,6 +5,7 @@ var async = require("async");
 var redis = require("redis");
 var http = require('http');
 var engine = require('ejs-locals');
+var _ = require('underscore');
 
 var data = {
   extended: require('./json/extended'),
@@ -35,7 +36,16 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+function pick (params, condition) {
+  return function (a) {
+    var b = _.pick(a, params);
+    return condition ? b : a;
+  }
+}
+
 app.get('/api/extended', function(req, res) {
+  var params = _.keys(req.query);
+  data.extended = _.map(data.extended, pick(params, params.length > 0));
   res.json(data.extended);
 });
 
