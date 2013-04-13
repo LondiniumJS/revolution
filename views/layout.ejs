@@ -1,1 +1,14 @@
+<html>
+<head>
+  <title>Revolution</title>
+  <link rel="stylesheet" href="/css/default.css">
+</head>
+<body>
 <%- body %>
+<script type="text/javascript" charset="utf-8" src="/js/countup.js"></script>
+<script type="text/javascript">
+  var initialtime = Date.now();
+  var count = new CountUp('', initialtime, 'time');
+</script>
+</body>
+</html>

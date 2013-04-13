@@ -1,0 +1,30 @@
+@import "reset.less";
+
+body {
+  color: #0b97c4;
+}
+
+#time {
+  text-align: center; font: 1em "Helvetica Neue";
+
+  .number, .num, .desc {
+    display: inline; padding-right:10px; font-size: 1.1em;
+  }
+  .num {
+    font: 2em "Tangerine";
+  }
+  .desc {
+    font: "Helvetica Neue"; font-weight: 100;
+  }
+  .number:last-child, .num:last-child, .desc:last-child {
+    padding-right: 0;
+  }
+}
+
+.users {
+  width: 960px;
+  margin: 0 auto;
+  .user {
+    float: left;
+  }
+}
