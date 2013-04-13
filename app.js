@@ -34,8 +34,9 @@ app.configure(function () {
 });
 
 app.get('/', function(req, res) {
-  Extend.find({}).sort('peerindex').exec(function(err, docs){
-    res.locals.users = docs;
+  Extend.find({}).select('twitter peerindex authority audience activity').sort('peerindex').exec(function(err, docs){
+    console.log(typeof docs);
+    res.locals.users = JSON.stringify(docs);
     res.render('index');
   });
 });
@@ -49,9 +50,10 @@ function pick (params, condition) {
 
 app.get('/api/top300', function(req, res) {
   Extend.find({}).sort('peerindex').exec(function(err, docs){
+    console.log(docs);
     res.json(docs);
   });
-})
+});
 
 app.get('/api/extended', function(req, res) {
   var params = _.keys(req.query);

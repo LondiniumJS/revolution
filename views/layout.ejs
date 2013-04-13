@@ -5,10 +5,37 @@
 </head>
 <body>
 <%- body %>
+<script type="text/javascript" charset="utf-8" src="/js/d3.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/countup.js"></script>
 <script type="text/javascript">
   var initialtime = Date.now();
   var count = new CountUp('', initialtime, 'time');
+
+  var data = <%- users %>;
+
+  var gallery = d3.select('#users');
+
+  var container = gallery.selectAll('.user')
+      .data(data, function(d) { return d.twitter.id; });
+
+  container.enter().append('div')
+      .attr('class', 'user')
+
+  container.exit().remove();
+
+
+  /* container.selectAll('.text')
+      .data(function(d) { return [d]; })
+      .enter().append('p')
+      .attr('class', 'text')
+      .text(function(d) { return d.text; });
+      */
+
+  container.selectAll('.picture')
+      .data(function(d) { return [d]; })
+      .enter().append('img')
+      .attr('class', 'picture')
+      .attr('src', function(d) { return "/images/"+d.twitter.id+".jpeg"; });
 </script>
 </body>
 </html>
