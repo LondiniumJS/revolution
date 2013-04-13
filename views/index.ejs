@@ -1,1 +1,7 @@
-HELLO
+<div class="users">
+  <% for (var i = 0; i < users.length; i++) { %>
+  <div id="tw_<%= users[i].twitter.id %>" class="user">
+    <img src="http://a0.twimg.com/profile_background_images/824241841/2325a6ccbb64dbe714eec1173df796ad.jpeg">
+  </div>
+  <% } %>
+</div>

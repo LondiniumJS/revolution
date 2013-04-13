@@ -7,6 +7,7 @@ var http = require('http');
 var engine = require('ejs-locals');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var Extend = require('./model').Extend();
 
 var data = {
   extended: require('./json/extended'),
@@ -33,7 +34,10 @@ app.configure(function () {
 });
 
 app.get('/', function(req, res) {
-  res.render('index');
+  Extend.find({}).sort('peerindex').exec(function(err, docs){
+    res.locals.users = docs;
+    res.render('index');
+  });
 });
 
 function pick (params, condition) {
@@ -42,6 +46,12 @@ function pick (params, condition) {
     return condition ? b : a;
   }
 }
+
+app.get('/api/top300', function(req, res) {
+  Extend.find({}).sort('peerindex').exec(function(err, docs){
+    res.json(docs);
+  });
+})
 
 app.get('/api/extended', function(req, res) {
   var params = _.keys(req.query);
