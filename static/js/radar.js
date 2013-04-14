@@ -3,12 +3,12 @@ var RadarChart = {
   draw: function(id, d, options){
     var self = this;
     var cfg = {
-      radius: 5,
-      w :600,
-      h: 600,
+      radius: 3,
+      w :200,
+      h: 200,
       factor: 1,
       factorLegend:.85,
-      total: 4,
+      total: 2,
       levels: 3,
       maxValue: 1000,
       radians: 2 * Math.PI,
