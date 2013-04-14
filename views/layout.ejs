@@ -34,6 +34,10 @@ var data = [{"peerindex":92,"authority":86,"audience":94,"peerindex_id":"170b65e
         document.getElementById("name").innerHTML = d.name;
         document.getElementById("description").innerHTML = d.description;
         document.getElementById("followers_count").innerHTML = d.followers_count;
+		document.getElementById("activity").innerHTML = d.activity;
+		document.getElementById("authority").innerHTML = d.authority;
+		var imageLargeUrl = "/images_large/"+d.twitter.id+"_large.jpeg";
+		document.getElementById("large_pic").setAttribute('src', imageLargeUrl);
         if (index < 10)
           id.className="right";
         else
