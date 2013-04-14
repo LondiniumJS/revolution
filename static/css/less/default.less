@@ -1,4 +1,6 @@
 @import "reset.less";
+@red: #d82138;
+@green: #30d863;
 
 @font-face
 {
@@ -35,11 +37,11 @@ h1 {
   }
 }
 .redbox {
-  background-color: #cc0000;
+  background-color: @red;
 }
 
 .greenbox {
-  background-color: #00cc00;
+  background-color: @green;
 }
 
 #thetitle {
@@ -71,7 +73,7 @@ h1 {
   margin:-10px 0 -40px;
 
   &.finished {
-    color: #cc0000;
+    color: @red;
   }
 
   .number, .num, .desc {
@@ -119,11 +121,11 @@ h1 {
   }
 }
 #one {
-  stroke: green !important;
+  stroke: @green !important;
   fill: rgba(73, 225, 118, 0.45);
 }
 #two {
-  stroke: red !important;
+  stroke: @red !important;
 }
 
 #info {
