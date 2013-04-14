@@ -1,17 +1,54 @@
 @import "reset.less";
 
+@font-face
+{
+  font-family: myFirstFont;
+  src: url(/font.ttf);
+}
+
 body {
   color: #0b97c4;
-  font-family: "helvetica neue", Helvetica, "Open Sans", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "Open Sans", sans-serif;
+  font-weight: 300;
 }
 h1 {
   color: #333;
-  font-size: 2em;
+  font: 2em "Helvetica Neue";
+}
+.centered {
+  margin: 0 auto;
+  text-align: center;
+  width: 960px;
+}
+.font {
+  font-family: myFirstFont;
 }
 
+#thetitle {
+  h1 {
+    font: 2em "Helvetica Neue" !important;
+    font-weight: 300 !important;
+  }
+}
+#text {
+  margin: 0 auto;
+  width: 960px;
+  background:#eee;
+  border: 1px solid #dfdfdf;
+  clear: both;
+  h1 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .inside {
+    padding: 30px;
+    color: #333;
+    font-size: 13px;
+  }
+}
 #time {
-  text-align: center; font: 2em "Helvetica Neue";
-  margin: 40px 0 ;
+  text-align: center; font: 1.5em "Helvetica Neue";
+  margin:-10px 0 -40px;
 
   &.finished {
     color: #cc0000;
@@ -48,8 +85,7 @@ h1 {
 
 
   path {
-    stroke: steelblue;
-    stroke-width: 2;
+    stroke-width: 4;
     fill: none;
   }
 
