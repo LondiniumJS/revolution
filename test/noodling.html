@@ -6,27 +6,11 @@
 		</script>
 
 		<script type="text/javascript">
-			var activityMax, frequencyMax;
+      'use strict'
 
-			function getMaxOfArray(numArray){
-				return Math.max.apply(null, numArray);
-			}
+      var authorityMax = Math.max.apply(null, data.map(function(value) {return value.authority;}));
+      var frequencyMax = Math.max.apply(null, data.map(function(value) {return value.activity;}));
 
-			function getLargestValues(data){
-				var maxActivityArray = [];
-				var maxFrequencyArray = [];
-
-				for(var i=0; i < data.length;i++){
-					maxActivityArray.push(data[i].activity);
-					maxFrequencyArray.push(data[i].authority);
-				}
-
-				// to get the Max value of the array & calc scalars
-					activityMax = getMaxOfArray(maxActivityArray);
-					frequencyMax = getMaxOfArray(maxFrequencyArray);
-			}
-
-			getLargestValues(data);
 			var finalArray = createTweeterObject(5);
 			console.log(finalArray);
 
@@ -34,25 +18,28 @@
 				var finalArray = [];
 				for(var t = 0; t < time; t++){
 					// declare some arrays to hold data from .js files
-					var tweeterObject = {pro:0, against:0};
+          var timeArray = [];
 
 					for(var i=0; i<data.length; i++){
-						timeArray = [];
 						var twitterId = parseInt(data[i].twitter.id, 10);
 
 						for (var j = 0; j<twitterData.length; j++){
 							if (twitterData[j].id === (twitterId)){
-								tweeterObject.undecided = twitterData[j].followers_count;
-								tweeterObject.name = twitterData[j].name;
+
+                var tweeterObject = {
+                  pro:0,
+                  against:0,
+                  authority: (data[i].authority / authorityMax),
+                  frequency: (data[i].activity / frequencyMax),
+                  undecided: twitterData[j].followers_count,
+                  name: twitterData[j].name
+                };
+
 								break;
 							}
 						}
-						tweeterObject.authority = data[i].authority;
-						tweeterObject.frequency = data[i].activity;	
-						tweeterObject.activity = (tweeterObject.activity / activityMax);
-						tweeterObject.frequency = (tweeterObject.frequency / frequencyMax);	
 
-						x = noOfFollowersConverted(tweeterObject);
+						var x = noOfFollowersConverted(tweeterObject);
 
 						timeArray.push(x);
 					}
@@ -61,34 +48,25 @@
 				return finalArray;
 			}
 
-			function noOfFollowersConverted(tweeterObject){
-				
-				if(tweeterObject.undecided <= 0){
-					return tweeterObject;
-				}
+			function noOfFollowersConverted(result){
 
-				// define an internal object
-				// assign varibles from the object passed into function
-				var result = {};
-				result.undecided = tweeterObject.undecided;
-				result.pro = tweeterObject.pro;
-				result.against = tweeterObject.against;
-				var authority = tweeterObject.authority;
-				var frequency = tweeterObject.frequency;
+				if(result.undecided <= 0){ return result; }
 
-				// arbitary decision weights
-				// decided by the user
 				var authorityWeight = 0.5;
 				var frequencyWeight = (1 - authorityWeight);
 
-				// main algo for assiging the decision
-				makeDecision = ((result.undecided * authority)*authorityWeight + (result.undecided * frequency)*frequencyWeight);
-				console.log(result.undecided, makeDecision);
+				var makeDecision = ((result.undecided * result.authority)*authorityWeight + (result.undecided * result.frequency)*frequencyWeight);
+        console.log(makeDecision);
 
-				// assign the results back to the object
-				result.undecided = Math.round(result.undecided - makeDecision);
-				result.against = Math.round(makeDecision * (1 - authority));
-				result.pro = Math.round(makeDecision * (authority));
+        console.log(result.undecided);
+
+				result.undecided -= Math.round(makeDecision);
+				result.against += Math.round(makeDecision * (1 - result.authority));
+				result.pro += Math.round(makeDecision * (result.authority));
+
+        if (result.undecided < 0 ) result.undecided = 0;
+        if (result.against < 0 ) result.against = 0;
+        if (result.pro < 0 ) result.pro = 0;
 				
 				return result;
 			}
