@@ -11,70 +11,110 @@
       var authorityMax = Math.max.apply(null, data.map(function(value) {return value.authority;}));
       var frequencyMax = Math.max.apply(null, data.map(function(value) {return value.activity;}));
 
-			var finalArray = createTweeterObject(5);
-			console.log(finalArray);
+			var finalArray = createTweeterObject(60);
+//			console.log(finalArray);
 
 			function createTweeterObject(time){
-				var finalArray = [];
+				var tweeterObject;
+				var finalArray = [[]];
+
+				//var numTweeters = 1;
+				var numTweeters = data.length;
+
+				for(var i=0; i<numTweeters; i++){
+					var twitterId = parseInt(data[i].twitter.id, 10);
+
+					for (var j = 0; j<twitterData.length; j++){
+						if (twitterData[j].id === (twitterId)){
+
+			                tweeterObject = {
+			                  pro:0,
+			                  against:0,
+			                  authority: (data[i].authority / authorityMax),
+			                  frequency: (data[i].activity / frequencyMax),
+			                  undecided: twitterData[j].followers_count,
+			                  name: twitterData[j].name
+			                };
+
+			                // pushing virgin tweeterObject onto time '0' of finalArray
+			                finalArray[0].push(tweeterObject);
+
+							break;
+						}
+					}
+				}
+
 				for(var t = 0; t < time; t++){
 					// declare some arrays to hold data from .js files
-          var timeArray = [];
+ 		        	var timeArray = [];
 
-					for(var i=0; i<data.length; i++){
-						var twitterId = parseInt(data[i].twitter.id, 10);
+ 		        	// last time tick's finalArray index
+		        	var lastRoundsTweeterIndex = finalArray.length -1;
 
-						for (var j = 0; j<twitterData.length; j++){
-							if (twitterData[j].id === (twitterId)){
-
-                var tweeterObject = {
-                  pro:0,
-                  against:0,
-                  authority: (data[i].authority / authorityMax),
-                  frequency: (data[i].activity / frequencyMax),
-                  undecided: twitterData[j].followers_count,
-                  name: twitterData[j].name
-                };
-
-								break;
-							}
-						}
-
-						var x = noOfFollowersConverted(tweeterObject);
-
-						timeArray.push(x);
+		        	for(var i=0; i<numTweeters; i++) {
+						timeArray.push( noOfFollowersConverted( finalArray[lastRoundsTweeterIndex][i] ) );
 					}
+					
+
+//					console.log('timeArray', timeArray);
+
 					finalArray.push(timeArray);
 				}
+
 				return finalArray;
 			}
 
 			function noOfFollowersConverted(result){
+//				console.log('result = ', result);
+				var tweeterObject = {
+                  pro:result.pro,
+                  against:result.against,
+                  authority:result.authority,
+                  frequency:result.frequency,
+                  undecided:result.undecided,
+                  name:result.name
+                };
 
-				if(result.undecided <= 0){ return result; }
+				if(tweeterObject.undecided <= 0){ return tweeterObject; }
 
 				var authorityWeight = 0.5;
 				var frequencyWeight = (1 - authorityWeight);
 
-				var makeDecision = ((result.undecided * result.authority)*authorityWeight + (result.undecided * result.frequency)*frequencyWeight);
-        console.log(makeDecision);
+				var makeDecision = ((((tweeterObject.undecided * tweeterObject.authority)*authorityWeight ) * tweeterObject.frequency)*frequencyWeight);
 
-        console.log(result.undecided);
+				tweeterObject.undecided = tweeterObject.undecided - Math.round(makeDecision);
+//				console.log('undecided', tweeterObject.undecided);
+				tweeterObject.against += Math.round(makeDecision * (1 - tweeterObject.authority));
+				tweeterObject.pro += Math.round(makeDecision * (tweeterObject.authority));
+//				console.log('pro', tweeterObject.pro);
 
-				result.undecided -= Math.round(makeDecision);
-				result.against += Math.round(makeDecision * (1 - result.authority));
-				result.pro += Math.round(makeDecision * (result.authority));
-
-        if (result.undecided < 0 ) result.undecided = 0;
-        if (result.against < 0 ) result.against = 0;
-        if (result.pro < 0 ) result.pro = 0;
+		        if (tweeterObject.undecided < 0 ) tweeterObject.undecided = 0;
+		        if (tweeterObject.against < 0 ) tweeterObject.against = 0;
+		        if (tweeterObject.pro < 0 ) tweeterObject.pro = 0;
 				
-				return result;
+//				console.log('tweeterObject at end = ', tweeterObject);
+				return tweeterObject;
 			}
-			
-				
+		
+		function getCumulativeProperty( prop, arr ) {
+			return arr.map(function(dailyConversions){
+				dailyConversions = dailyConversions.map(function(tweeter){
+					return tweeter[prop]; 
+				});
+				//return dailyConversions;
+				return dailyConversions.reduce(function(sumSoFar,tweeterProp){
+					sumSoFar += tweeterProp; 
+					return sumSoFar;
+				});
+			});
+		}
 
-			
+		var cumulativePro = getCumulativeProperty( 'pro', finalArray );
+		var cumulativeAgainst = getCumulativeProperty( 'against', finalArray );
 
+		console.log('Pro', cumulativePro);
+		console.log('Against', cumulativeAgainst);
+			
 		</script>
 	</head>
 </html>
