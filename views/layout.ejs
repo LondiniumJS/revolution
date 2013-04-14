@@ -6,16 +6,11 @@
 </head>
 <body>
 <%- body %>
-<script type="text/javascript" src="/js/data.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/d3.min.js"></script>
-<script type="text/javascript" src="/js/radar.js"></script>
 <script type="text/javascript" src="/js/results.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/countup.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/d3.min.js"></script>
+<script type="text/javascript" src="/js/data.js"></script>
+<script type="text/javascript" src="/js/radar.js"></script>
 <script type="text/javascript">
-  var initialtime = Date.now();
-  var count = new CountUp('', initialtime, 'time');
-
-
 
   var gallery = d3.select('#users');
   var container = gallery.selectAll('.user');
@@ -79,16 +74,16 @@
       .x(function(d,i) { return x1(i); })
       .y(function(d) { return -1 * y1(d); })
 
-  g.append("svg:path").attr("d", line(Pro));
+  var theline = g.append("svg:path").attr("id", "one").attr("d", line([]));
 
-  g.append("svg:line")
+  theline.append("svg:line")
       .attr("x1", x(0))
       .attr("y1", -1 * y(0))
       .attr("x2", x(w))
       .attr("y2", -1 * y(0))
 
-  g.append("svg:path").attr("d", line1(Against));
-  g.append("svg:line")
+  var theline1 = g.append("svg:path").attr("id", "two").attr("d", line1([]));
+  theline1.append("svg:line")
       .attr("x1", x(0))
       .attr("y1", -1 * y(0))
       .attr("x2", x(0))
@@ -113,24 +108,6 @@
       .attr("text-anchor", "right")
       .attr("dy", 4)
 
-  g.selectAll(".xTicks")
-      .data(x.ticks(5))
-      .enter().append("svg:line")
-      .attr("class", "xTicks")
-      .attr("x1", function(d) { return x(d); })
-      .attr("y1", -1 * y(0))
-      .attr("x2", function(d) { return x(d); })
-      .attr("y2", -1 * y(-0.3))
-
-  g.selectAll(".yTicks")
-      .data(y.ticks(4))
-      .enter().append("svg:line")
-      .attr("class", "yTicks")
-      .attr("y1", function(d) { return -1 * y(d); })
-      .attr("x1", x(-0.3))
-      .attr("y2", function(d) { return -1 * y(d); })
-      .attr("x2", x(0))
-
 
 
   function pullDataAndDraw (datum,i) {
@@ -145,6 +122,11 @@
     document.getElementById('thechart').innerHTML = '';
     RadarChart.draw("#thechart", d);
   }
+</script>
+<script type="text/javascript" charset="utf-8" src="/js/countup.js"></script>
+<script>
+  var initialtime = Date.now();
+  var count = new CountUp('', initialtime, 'time');
 </script>
 </body>
 </html>

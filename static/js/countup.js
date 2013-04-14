@@ -38,6 +38,7 @@ CountUp.prototype.addLeadingZero=function(value){
 }
  
 CountUp.prototype.calculate=function(id, time){
+  this.prevDays = this.days;
   var prevDate = this.beginDate;
   this.currentDate += time;
   var currDate = new Date(this.currentDate);
@@ -67,8 +68,17 @@ CountUp.prototype.calculate=function(id, time){
   // html += "<div class='number'><div class='num'>" + this.seconds + "</div><div class='desc'>" + (this.seconds == 1? "second" : "seconds") + "</div></div>";
   countainer.innerHTML = html;
   var self = this;
-  if ( this.months != 1) {setTimeout(function(){self.calculate(id, time);}, 100); }
+  if ( this.months != 1) {setTimeout(function(){
+    self.calculate(id, time);}, 100);
+    if (this.prevDays != this.day) {
+      console.log("YEEEEE");
+      theline.attr("d", line(Pro.slice(0, this.days)));
+      theline1.attr("d", line1(Against.slice(0, this.days)));
+    }
+    if (this.months == 1) {
+      theline.attr("d", line(Pro));
+      theline1.attr("d", line1(Against));
+    }
+  }
   else { countainer.className = "finished"; }
 }
-
-//console.log(d3);
