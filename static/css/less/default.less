@@ -33,20 +33,26 @@ h1 {
   .user {
     float: left;
     img {
-      width: 48px;
-      height: 48px;
+      width: 32px;
+      height: 32px;
     }
   }
 }
 
 #info {
   width: 480px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  opacity: 0.9;
-  height: 720px;
+  height: 320px;
   position: absolute;
   display: none;
+
+  .description {
+    font-size: 0.8em;
+    color: #333;
+    margin-left: 68px;
+  }
+
   & > * {
     padding: 10px 20px;
   }
@@ -61,4 +67,9 @@ h1 {
   &.hidden {
     display: none;
   }
+}
+
+.left {
+  float: left;
+  margin-right: 20px;
 }
