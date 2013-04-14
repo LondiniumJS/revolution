@@ -52,9 +52,10 @@ CountUp.prototype.calculate=function(id, time){
   this.formatTime();
   var countainer = document.getElementById(id);
 
-  if ( this.month == 1) {
+  if ( this.months == 1) {
     this.days = 0;
     this.hours = 0;
+    this.minutes = 0;
   }
 
   var html = this.msg+"<br/>";
@@ -66,5 +67,8 @@ CountUp.prototype.calculate=function(id, time){
   // html += "<div class='number'><div class='num'>" + this.seconds + "</div><div class='desc'>" + (this.seconds == 1? "second" : "seconds") + "</div></div>";
   countainer.innerHTML = html;
   var self = this;
-  setTimeout(function(){self.calculate(id, time);}, 100);
+  if ( this.months != 1) {setTimeout(function(){self.calculate(id, time);}, 100); }
+  else { countainer.className = "finished"; }
 }
+
+//console.log(d3);
