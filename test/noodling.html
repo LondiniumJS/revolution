@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<script type="text/javascript" src="extendedData.js">
+		</script>
+		<script type="text/javascript" src="twitterData.js">
+		</script>
+
+		<script type="text/javascript">
+			var activityMax, frequencyMax;
+
+			function getMaxOfArray(numArray){
+				return Math.max.apply(null, numArray);
+			}
+
+			function getLargestValues(data){
+				var maxActivityArray = [];
+				var maxFrequencyArray = [];
+
+				for(var i=0; i < data.length;i++){
+					maxActivityArray.push(data[i].activity);
+					maxFrequencyArray.push(data[i].authority);
+				}
+
+				// to get the Max value of the array & calc scalars
+					activityMax = getMaxOfArray(maxActivityArray);
+					frequencyMax = getMaxOfArray(maxFrequencyArray);
+			}
+
+			getLargestValues(data);
+			var finalArray = createTweeterObject(5);
+			console.log(finalArray);
+
+			function createTweeterObject(time){
+				var finalArray = [];
+				for(var t = 0; t < time; t++){
+					// declare some arrays to hold data from .js files
+					var tweeterObject = {pro:0, against:0};
+
+					for(var i=0; i<data.length; i++){
+						timeArray = [];
+						var twitterId = parseInt(data[i].twitter.id, 10);
+
+						for (var j = 0; j<twitterData.length; j++){
+							if (twitterData[j].id === (twitterId)){
+								tweeterObject.undecided = twitterData[j].followers_count;
+								tweeterObject.name = twitterData[j].name;
+								break;
+							}
+						}
+						tweeterObject.authority = data[i].authority;
+						tweeterObject.frequency = data[i].activity;	
+						tweeterObject.activity = (tweeterObject.activity / activityMax);
+						tweeterObject.frequency = (tweeterObject.frequency / frequencyMax);	
+
+						x = noOfFollowersConverted(tweeterObject);
+
+						timeArray.push(x);
+					}
+					finalArray.push(timeArray);
+				}
+				return finalArray;
+			}
+
+			function noOfFollowersConverted(tweeterObject){
+				
+				if(tweeterObject.undecided <= 0){
+					return tweeterObject;
+				}
+
+				// define an internal object
+				// assign varibles from the object passed into function
+				var result = {};
+				result.undecided = tweeterObject.undecided;
+				result.pro = tweeterObject.pro;
+				result.against = tweeterObject.against;
+				var authority = tweeterObject.authority;
+				var frequency = tweeterObject.frequency;
+
+				// arbitary decision weights
+				// decided by the user
+				var authorityWeight = 0.5;
+				var frequencyWeight = (1 - authorityWeight);
+
+				// main algo for assiging the decision
+				makeDecision = ((result.undecided * authority)*authorityWeight + (result.undecided * frequency)*frequencyWeight);
+				console.log(result.undecided, makeDecision);
+
+				// assign the results back to the object
+				result.undecided = Math.round(result.undecided - makeDecision);
+				result.against = Math.round(makeDecision * (1 - authority));
+				result.pro = Math.round(makeDecision * (authority));
+				
+				return result;
+			}
+			
+				
+
+			
+
+		</script>
+	</head>
+</html>
+
+
