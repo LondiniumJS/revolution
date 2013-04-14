@@ -7,7 +7,7 @@ function CountUp(msg, initDate, id){
   this.borrowed = 0, this.years = 0, this.months = 0, this.days = 0;
   this.hours = 0, this.minutes = 0, this.seconds = 0;
   this.updateNumOfDays();
-  this.calculate(id, 3*60*1000);
+  this.calculate(id, 3*59*60*1000);
 }
 CountUp.prototype.updateNumOfDays=function(){
   var dateNow = new Date();
@@ -51,6 +51,12 @@ CountUp.prototype.calculate=function(id, time){
   this.years = this.datePartDiff(prevDate.getFullYear(), currDate.getFullYear(),0);
   this.formatTime();
   var countainer = document.getElementById(id);
+
+  if ( this.month == 1) {
+    this.days = 0;
+    this.hours = 0;
+  }
+
   var html = this.msg+"<br/>";
   if (this.years > 0) html += "<div class='number'><div class='num'>" + this.years + "</div><div class='desc'>" + (this.years == 1? "year" : "years") + "</div></div>";
   if (this.months > 0) html += "<div class='number'><div class='num'>" + this.months + "</div><div class='desc'>" + (this.months == 1? "month" : "months") + "</div></div>";
