@@ -38,6 +38,26 @@ h1 {
     }
   }
 }
+#graph {
+  margin: 20px auto;
+  width: 960px;
+
+
+  path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  line {
+    stroke: black;
+  }
+
+  text {
+    font-family: Arial;
+    font-size: 9pt;
+  }
+}
 
 #info {
   width: 480px;
@@ -72,4 +92,35 @@ h1 {
 .left {
   float: left;
   margin-right: 20px;
+}
+
+
+@-webkit-keyframes flashing
+{
+  0%   {opacity: 0;}
+  30%  {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+
+@-moz-keyframes flashing
+{
+  0%   {opacity: 0;}
+  30%  {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+
+@keyframes flashing
+{
+  0%   {opacity: 0;}
+  30%  {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+
+.user {
+/*  -webkit-animation: flashing 5s linear infinite;
+  -webkit-animation-name: flashing;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: 10;
+  -webkit-animation-timing-function: linear;
+  */
 }

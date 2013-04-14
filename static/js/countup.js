@@ -1,11 +1,13 @@
 function CountUp(msg, initDate, id){
   this.msg = msg;
+  this.initDate = initDate;
+  this.currentDate = initDate;
   this.beginDate = new Date(initDate);
   this.numOfDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
   this.borrowed = 0, this.years = 0, this.months = 0, this.days = 0;
   this.hours = 0, this.minutes = 0, this.seconds = 0;
   this.updateNumOfDays();
-  this.calculate(id);
+  this.calculate(id, 3*60*1000);
 }
 CountUp.prototype.updateNumOfDays=function(){
   var dateNow = new Date();
@@ -35,9 +37,10 @@ CountUp.prototype.addLeadingZero=function(value){
   return value < 10 ? ("0" + value) : value;
 }
  
-CountUp.prototype.calculate=function(id){
-  var currDate = new Date();
+CountUp.prototype.calculate=function(id, time){
   var prevDate = this.beginDate;
+  this.currentDate += time;
+  var currDate = new Date(this.currentDate);
   this.seconds = this.datePartDiff(prevDate.getSeconds(), currDate.getSeconds(), 60);
   this.minutes = this.datePartDiff(prevDate.getMinutes(), currDate.getMinutes(), 60);
   this.hours = this.datePartDiff(prevDate.getHours(), currDate.getHours(), 24);
@@ -54,8 +57,8 @@ CountUp.prototype.calculate=function(id){
   html += "<div class='number'><div class='num'>" + this.days + "</div><div class='desc'>" + (this.days == 1? "day" : "days") + "</div></div>";
   html += "<div class='number'><div class='num'>" + this.hours + "</div><div class='desc'>" + (this.hours == 1? "hour" : "hours") + "</div></div>";
   html += "<div class='number'><div class='num'>" + this.minutes + "</div><div class='desc'>" + (this.minutes == 1? "minute" : "minutes") + "</div></div>";
-  html += "<div class='number'><div class='num'>" + this.seconds + "</div><div class='desc'>" + (this.seconds == 1? "second" : "seconds") + "</div></div>";
+  // html += "<div class='number'><div class='num'>" + this.seconds + "</div><div class='desc'>" + (this.seconds == 1? "second" : "seconds") + "</div></div>";
   countainer.innerHTML = html;
   var self = this;
-  setTimeout(function(){self.calculate(id);}, 1000);
+  setTimeout(function(){self.calculate(id, time);}, 100);
 }
