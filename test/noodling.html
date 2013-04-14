@@ -33,7 +33,8 @@
 			                  authority: (data[i].authority / authorityMax),
 			                  frequency: (data[i].activity / frequencyMax),
 			                  undecided: twitterData[j].followers_count,
-			                  name: twitterData[j].name
+			                  name: twitterData[j].name,
+			                  peerIndexId: data[i].peerindex_id
 			                };
 
 			                // pushing virgin tweeterObject onto time '0' of finalArray
@@ -72,7 +73,8 @@
                   authority:result.authority,
                   frequency:result.frequency,
                   undecided:result.undecided,
-                  name:result.name
+                  name:result.name,
+			      peerIndexId: result.peerIndexId
                 };
 
 				if(tweeterObject.undecided <= 0){ return tweeterObject; }
@@ -109,12 +111,42 @@
 			});
 		}
 
+
 		var cumulativePro = getCumulativeProperty( 'pro', finalArray );
 		var cumulativeAgainst = getCumulativeProperty( 'against', finalArray );
 
-		console.log('Pro', cumulativePro);
-		console.log('Against', cumulativeAgainst);
-			
+		function getIndividualProperty( prop, arr ) {
+			return arr.map(function(dailyConversions){
+				dailyConversions = dailyConversions.map(function(tweeter){
+					return [tweeter['peerIndexId'], tweeter[prop]]; 
+				});
+				return dailyConversions;
+			});
+		}
+
+		var individualPro = getIndividualProperty( 'pro', finalArray );
+		var individualAgainst = getIndividualProperty( 'against', finalArray );
+		
+		// Create object with keys = peer index, value = array of time series data for that individual
+		var timeSeriesObject = {};
+		var firstTimeThroughFlag = true;
+
+		for (var day_index in individualPro){
+			for (var personTweeting_index in individualPro[day_index]){
+				var array_pair = individualPro[day_index][personTweeting_index];
+				if (firstTimeThroughFlag){
+					timeSeriesObject[array_pair[0]] = [array_pair[1]]; 	
+				} else {
+					timeSeriesObject[array_pair[0]].push(array_pair[1]);
+				}
+			}
+			firstTimeThroughFlag = false;
+		}
+
+		console.log('Pro', individualPro);
+		console.log('Against', individualAgainst);
+		console.log('timeSeriesObject', JSON.stringify(timeSeriesObject));
+
 		</script>
 	</head>
 </html>
