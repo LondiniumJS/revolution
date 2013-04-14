@@ -1,0 +1,24 @@
+{
+  "peerindex": 88,
+  "demographics": {
+    "location": {
+      "county": "Greater London",
+      "place_type": "populated_place",
+      "geoname_id": 2643743,
+      "longitude": -0.12574,
+      "country_code": "GB",
+      "latitude": 51.50853,
+      "place_name": "London"
+    }
+  },
+  "authority": 83,
+  "audience": 83,
+  "version": "1.1",
+  "peerindex_id": "8543f576-5892-350e-af4c-83b1510400b1",
+  "activity": 58,
+  "twitter": {
+    "id": "34613288"
+  }
+}
+
+

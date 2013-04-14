@@ -1,0 +1,47 @@
+{
+  "benchmark_topics": [
+    {
+      "name": "News and society",
+      "topic_score": 75,
+      "id": 4420
+    },
+    {
+      "name": "Leisure and Lifestyle",
+      "topic_score": 73,
+      "id": 4419
+    },
+    {
+      "name": "Science and Environment",
+      "topic_score": 78,
+      "id": 4418
+    },
+    {
+      "name": "Technology and Internet",
+      "topic_score": 77,
+      "id": 4208
+    },
+    {
+      "name": "Health and Medical",
+      "topic_score": 75,
+      "id": 4203
+    },
+    {
+      "name": "Arts, Media and Entertainment",
+      "topic_score": 84,
+      "id": 4202
+    },
+    {
+      "name": "Sports",
+      "topic_score": 59,
+      "id": 4244
+    },
+    {
+      "name": "Business and Finance",
+      "topic_score": 55,
+      "id": 4200
+    }
+  ],
+  "version": "1.1",
+  "peerindex_id": "c64c3218-0480-368d-8f91-c35009eee833",
+  "peerindex": 88
+}
